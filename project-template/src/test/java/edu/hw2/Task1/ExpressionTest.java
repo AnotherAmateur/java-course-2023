@@ -1,6 +1,5 @@
 package edu.hw2.Task1;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import edu.hw2.Task1.Expression.*;
 
