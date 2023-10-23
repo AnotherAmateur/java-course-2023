@@ -1,4 +1,4 @@
-package edu.hw2.Task4;
+package edu.hw2.task4;
 
 record CallingInfo(String className, String methodName) {
 }

@@ -1,7 +1,7 @@
-package edu.hw2.Task1;
+package edu.hw2.task1;
 
 import org.junit.jupiter.api.Test;
-import edu.hw2.Task1.Expression.*;
+import edu.hw2.task1.Expression.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

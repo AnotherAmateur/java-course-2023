@@ -1,6 +1,6 @@
-package edu.hw2.Task1;
+package edu.hw2.task1;
 
-import edu.hw2.Task1.Expression.*;
+import edu.hw2.task1.Expression.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
