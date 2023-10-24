@@ -5,16 +5,10 @@ record CallingInfo(String className, String methodName) {
 
 public class Main {
     public static CallingInfo callingInfo() {
-        String className = "";
-        String methodName = "";
-
-        try {
-            var a = new double[999999999];
-        } catch (Throwable ex) {
-            var stackTrace = ex.getStackTrace()[1];
-            className = stackTrace.getClassName();
-            methodName = stackTrace.getMethodName();
-        }
+        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        StackTraceElement caller = stackTrace[2];
+        String className = caller.getClassName();
+        String methodName = caller.getMethodName();
 
         return new CallingInfo(className, methodName);
     }
