@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Stack;
 
 public class Task2 {
+    private Task2() {
+    }
+
     public static List<String> clusterize(String input) {
         var clustersRes = new ArrayList<String>();
         var stack = new Stack<Integer>();

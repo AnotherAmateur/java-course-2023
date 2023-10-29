@@ -3,6 +3,9 @@ package edu.hw3;
 import java.util.LinkedHashMap;
 
 public class Task4 {
+    private Task4() {
+    }
+
     public static String convertToRoman(int num) throws IllegalArgumentException {
         if (num < 1 || num > 3999) {
             throw new IllegalArgumentException();

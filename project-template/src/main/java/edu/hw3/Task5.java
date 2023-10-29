@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public class Task5 {
+    private Task5() {
+    }
+
     public enum Order {
         ASC,
         DESC
@@ -15,15 +18,13 @@ public class Task5 {
         }
 
         var comparator = new NamesComparator(order);
-        Object[] sortedNames = Arrays.stream(names).sorted(comparator).toArray(Object[]::new);
-
-        return sortedNames;
+        return Arrays.stream(names).sorted(comparator).toArray(Object[]::new);
     }
 
     static private class NamesComparator implements Comparator<String> {
         Order order;
 
-        public NamesComparator(Order order) {
+        private NamesComparator(Order order) {
             this.order = order;
         }
 

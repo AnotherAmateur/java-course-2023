@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Task3 {
+    private Task3() {
+    }
+
     public static <T> Map<T, Integer> freqDict(List<T> objectList) {
         var freqHMap = new HashMap<T, Integer>();
 
