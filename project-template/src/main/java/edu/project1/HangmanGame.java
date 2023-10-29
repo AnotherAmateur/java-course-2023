@@ -1,23 +1,20 @@
 package edu.project1;
 
-import java.util.Scanner;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+public final class HangmanGame {
+    private final HangmanPlayer player;
 
-final class ConsoleHangman {
-    private static final Logger LOGGER = LogManager.getLogger();
-
-    private ConsoleHangman() {
+    public HangmanGame(ConsolePlayer player) {
+        this.player = player;
     }
 
-//    public static void main(String[] args) {
-//        run();
-//    }
+    public static void main(String[] args) {
+        var game = new HangmanGame(new ConsolePlayer());
+        game.run();
+    }
 
-    public static void run() {
+    public void run() {
         final String giveUpWord = "LOSER";
         WordsDictionary dictionary = new HangmanWordsDic();
-        Scanner scanner = new Scanner(System.in);
 
         while (true) {
             String word = dictionary.getRandomWord();
@@ -25,18 +22,18 @@ final class ConsoleHangman {
             try {
                 session = new Session(word);
             } catch (IllegalArgumentException exception) {
-                LOGGER.info(exception.getMessage());
+                player.displayInfo(exception.getMessage());
                 return;
             }
 
-            LOGGER.info("Let the game begin");
-            LOGGER.info("Enter 'loser' to give up");
-            LOGGER.info("The word: " + session.getUserAnswer());
+            player.displayInfo("Let the game begin");
+            player.displayInfo("Enter 'loser' to give up");
+            player.displayInfo("The word: " + session.getUserAnswer());
 
             while (true) {
-                LOGGER.info("");
-                LOGGER.info("Guess a letter: ");
-                String input = scanner.nextLine().toUpperCase();
+                player.displayInfo("");
+                player.displayInfo("Guess a letter: ");
+                String input = player.getInput().toUpperCase();
 
                 if (input.equals(giveUpWord)) {
                     GuessResult guessRes = session.giveUp();
@@ -51,18 +48,17 @@ final class ConsoleHangman {
                         break;
                     }
                 } else {
-                    LOGGER.info("Bad input");
+                    player.displayInfo("Bad input");
                 }
             }
 
-            LOGGER.info("");
-            LOGGER.info("Want another game? (Y/N)");
-            String input = scanner.nextLine();
+            player.displayInfo("");
+            player.displayInfo("Want another game? (Y/N)");
+            String input = player.getInput();
             if (Character.toUpperCase(input.charAt(0)) == 'Y') {
                 continue;
             }
 
-            scanner.close();
             return;
         }
     }
@@ -71,15 +67,13 @@ final class ConsoleHangman {
         return session.guess(guess);
     }
 
-    private static void printState(GuessResult guessRes) {
-        LOGGER.info(guessRes.message());
-
+    private void printState(GuessResult guessRes) {
+        player.displayInfo(guessRes.message());
         if (guessRes instanceof GuessResult.Win || guessRes instanceof GuessResult.Defeat) {
             return;
         }
-
-        LOGGER.info("The word: " + String.valueOf(guessRes.state()));
-        LOGGER.info("Attempts: " + guessRes.attempt() + "/" + guessRes.maxAttempts());
+        player.displayInfo("The word: " + String.valueOf(guessRes.state()));
+        player.displayInfo("Attempts: " + guessRes.attempt() + "/" + guessRes.maxAttempts());
     }
 }
 
