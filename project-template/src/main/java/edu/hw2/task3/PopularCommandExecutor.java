@@ -5,24 +5,13 @@ import org.apache.logging.log4j.Logger;
 
 public class PopularCommandExecutor {
     private static final Logger LOGGER = LogManager.getLogger();
-    private final ConnectionManager MANAGER;
-    private final int MAX_ATTEMPTS;
+    private final ConnectionManager manager;
+    private final int maxAttempts;
 
     public PopularCommandExecutor(ConnectionManager manager, int maxAttempts) {
-        MANAGER = manager;
-        MAX_ATTEMPTS = maxAttempts;
+        this.manager = manager;
+        this.maxAttempts = maxAttempts;
     }
-
-//    public static void main(String[] args) {
-//        ConnectionManager manager = new FaultyConnectionManager();
-//        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 3);
-//        try {
-//            executor.updatePackages();
-//        } catch (ConnectionException ex) {
-//            LOGGER.info(ex.getMessage());
-//            LOGGER.info(ex.getCause().getMessage());
-//        }
-//    }
 
     public void updatePackages() {
         tryExecute("apt update && apt upgrade -y");
@@ -31,12 +20,12 @@ public class PopularCommandExecutor {
     public void tryExecute(String command) {
         final String FAIL_MSG = "Failed to execute command \"" + command + "\"";
 
-        for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-            try (Connection connection = MANAGER.getConnection()) {
+        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+            try (Connection connection = manager.getConnection()) {
                 connection.execute(command);
                 return;
             } catch (ConnectionException ex) {
-                if (attempt == MAX_ATTEMPTS) {
+                if (attempt == maxAttempts) {
                     throw new ConnectionException(FAIL_MSG, ex);
                 }
                 LOGGER.info("Connection failed. Attempt " + (attempt + 1) + "...");
