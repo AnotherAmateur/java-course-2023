@@ -13,25 +13,47 @@ public class PopularCommandExecutor {
         this.maxAttempts = maxAttempts;
     }
 
+    public static void main(String[] args) {
+        ConnectionManager manager = new FaultyConnectionManager();
+        PopularCommandExecutor executor = new PopularCommandExecutor(manager, 3);
+        try {
+            executor.updatePackages();
+        } catch (ConnectionException ex) {
+            LOGGER.info(ex);
+            for (int i = 0; i < ex.getSuppressed().length; ++i) {
+                LOGGER.info(ex.getSuppressed()[i]);
+                var cause = ex.getSuppressed()[i].getCause();
+                if (cause != null) {
+                    LOGGER.info(cause);
+                }
+            }
+        }
+    }
+
     public void updatePackages() {
         tryExecute("apt update && apt upgrade -y");
     }
 
-    public void tryExecute(String command) {
-        final String FAIL_MSG = "Failed to execute command \"" + command + "\"";
+    public void tryExecute(String command) throws ConnectionException {
+        final String failMsg = "Failed to execute command \"" + command + "\"";
+        ConnectionException exc = null;
 
         for (int attempt = 1; attempt <= maxAttempts; attempt++) {
             try (Connection connection = manager.getConnection()) {
                 connection.execute(command);
-                return;
             } catch (ConnectionException ex) {
-                if (attempt == maxAttempts) {
-                    throw new ConnectionException(FAIL_MSG, ex);
+                if (exc == null) {
+                    exc = ex;
+                } else {
+                    exc.addSuppressed(ex);
                 }
-                LOGGER.info("Connection failed. Attempt " + (attempt + 1) + "...");
             } catch (Exception ex) {
-                throw new ConnectionException(FAIL_MSG, ex);
+                throw new ConnectionException(failMsg, ex);
             }
+        }
+
+        if (exc != null) {
+            throw exc;
         }
     }
 }
