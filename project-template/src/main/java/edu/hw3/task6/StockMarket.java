@@ -7,6 +7,6 @@ public interface StockMarket {
 
     Stock mostValuableStock();
 
-    record Stock(String name, Double salePrice) {
+    record Stock(String name, double salePrice) {
     }
 }

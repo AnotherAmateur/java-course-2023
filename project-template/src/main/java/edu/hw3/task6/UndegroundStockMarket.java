@@ -4,10 +4,10 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class UndegroundStockMarket implements StockMarket {
-    private PriorityQueue<Stock> stockPQ;
+    private final PriorityQueue<Stock> stockPQ;
 
     public UndegroundStockMarket() {
-        this.stockPQ = new PriorityQueue<>(new StockComparator());
+        this.stockPQ = new PriorityQueue<>(COAST_COMPARATOR_DESC);
     }
 
     @Override
@@ -25,9 +25,7 @@ public class UndegroundStockMarket implements StockMarket {
         return stockPQ.peek();
     }
 
-    private static class StockComparator implements Comparator<Stock> {
-        public int compare(Stock s1, Stock s2) {
-            return s2.salePrice().compareTo(s1.salePrice());
-        }
-    }
+    private static final Comparator<Stock> COAST_COMPARATOR_DESC = Comparator
+        .comparingDouble(Stock::salePrice)
+        .reversed();
 }
