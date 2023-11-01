@@ -31,8 +31,9 @@ class ExpressionTest {
         double testExponent = 124;
 
         Constant base = new Constant(testBase);
-        Exponent exponent = new Exponent(base, testExponent);
-        assertEquals(Math.pow(testBase, testExponent), exponent.evaluate(), eps);
+        Constant exponent = new Constant(testExponent);
+        Exponent result = new Exponent(base, exponent);
+        assertEquals(Math.pow(testBase, testExponent), result.evaluate(), eps);
     }
 
     @Test
@@ -64,7 +65,7 @@ class ExpressionTest {
         var negOne = new Negate(new Constant(1));
         var sumTwoFour = new Addition(two, four);
         var mult = new Multiplication(sumTwoFour, negOne);
-        var exp = new Exponent(mult, 2);
+        var exp = new Exponent(mult, new Constant(2));
         var res = new Addition(exp, new Constant(1));
 
         assertEquals(37, res.evaluate(), eps);

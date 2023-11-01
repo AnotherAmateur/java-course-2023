@@ -17,10 +17,10 @@ sealed interface Expression {
         }
     }
 
-    record Exponent(Expression base, double exponent) implements Expression {
+    record Exponent(Expression base, Expression exponent) implements Expression {
         @Override
         public double evaluate() {
-            return Math.pow(base.evaluate(), exponent);
+            return Math.pow(base.evaluate(), exponent.evaluate());
         }
     }
 

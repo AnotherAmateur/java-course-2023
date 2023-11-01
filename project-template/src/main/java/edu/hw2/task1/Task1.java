@@ -16,7 +16,7 @@ public class Task1 {
         var negOne = new Negate(new Constant(1));
         var sumTwoFour = new Addition(two, four);
         var mult = new Multiplication(sumTwoFour, negOne);
-        var exp = new Exponent(mult, 2);
+        var exp = new Exponent(mult, new Constant(2));
         var res = new Addition(exp, new Constant(1));
 
         LOGGER.info(res + " = " + res.evaluate());
