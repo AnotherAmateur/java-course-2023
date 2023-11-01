@@ -12,41 +12,31 @@ public class Task5 {
         DESC
     }
 
-    public static Object[] parseContacts(String[] names, Order order) {
+    public static Contact[] parseContacts(String[] names, Order order) {
         if (names == null || names.length == 0) {
-            return new Object[0];
+            return new Contact[0];
         }
 
-        var comparator = new NamesComparator(order);
-        return Arrays.stream(names).sorted(comparator).toArray(Object[]::new);
+        return Arrays.stream(names)
+            .map(str -> stringContactConverter(str))
+            .sorted((order == Order.ASC) ? ASC : DESC)
+            .toArray(Contact[]::new);
     }
 
-    static private class NamesComparator implements Comparator<String> {
-        Order order;
-
-        private NamesComparator(Order order) {
-            this.order = order;
-        }
-
-        @Override
-        public int compare(String str1, String str2) {
-            String[] name1 = str1.split(" ");
-            String[] name2 = str2.split(" ");
-
-            return switch (order) {
-                case DESC -> {
-                    if (name1.length == 2 && name2.length == 2) {
-                        yield name2[1].compareTo(name1[1]);
-                    }
-                    yield name2[0].compareTo(name1[0]);
-                }
-                case ASC -> {
-                    if (name1.length == 2 && name2.length == 2) {
-                        yield name1[1].compareTo(name2[1]);
-                    }
-                    yield name1[0].compareTo(name2[0]);
-                }
-            };
+    private static Contact stringContactConverter(String name) throws IllegalArgumentException {
+        String[] nameSplit = name.split(" ");
+        if (nameSplit.length == 1) {
+            return new Contact(nameSplit[0], null);
+        } else if (nameSplit.length == 2) {
+            return new Contact(nameSplit[0], nameSplit[1]);
+        } else {
+            throw new IllegalArgumentException();
         }
     }
+
+    private static final Comparator<Contact> ASC = Comparator
+        .comparing(Contact::lastName, Comparator.nullsLast(Comparator.naturalOrder()))
+        .thenComparing(Contact::firstName, Comparator.nullsLast(Comparator.naturalOrder()));
+
+    private static final Comparator<Contact> DESC = ASC.reversed();
 }
