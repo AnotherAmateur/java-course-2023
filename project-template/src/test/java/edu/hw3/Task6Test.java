@@ -1,7 +1,7 @@
 package edu.hw3;
 
-import edu.hw3.Task6.StockMarket;
-import edu.hw3.Task6.UndegroundStockMarket;
+import edu.hw3.task6.StockMarket;
+import edu.hw3.task6.UndegroundStockMarket;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,4 +1,4 @@
-package edu.hw3.Task6;
+package edu.hw3.task6;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;

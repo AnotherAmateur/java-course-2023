@@ -1,4 +1,4 @@
-package edu.hw3;
+package edu.hw3.task5;
 
 import java.util.Arrays;
 import java.util.Comparator;

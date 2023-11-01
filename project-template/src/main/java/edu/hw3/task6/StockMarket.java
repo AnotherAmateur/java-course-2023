@@ -1,4 +1,4 @@
-package edu.hw3.Task6;
+package edu.hw3.task6;
 
 public interface StockMarket {
     void add(Stock stock);
