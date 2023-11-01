@@ -6,11 +6,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Task1Test {
-    static char[] alphabetSortedEn;
+    static String alphabetSortedEn;
 
     @BeforeAll
     static void setUp() {
-        alphabetSortedEn = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+        alphabetSortedEn = Task1.getEnAlphabet();
     }
 
     @Test
@@ -44,7 +44,9 @@ class Task1Test {
 
     @Test
     void testEncodeAtbashRu() {
-        char[] alphabetSortedRu = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФЦЧШЩЪЫЬЭЮЯ".toCharArray();
+        // В задании говориться только про работу с латинским алфавитом,
+        // поэтому для генерации остальных специальный функционал не предусмотрен
+        String alphabetSortedRu = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФЦЧШЩЪЫЬЭЮЯ";
         var task1 = new Task1(alphabetSortedRu);
         String initStr = "Съешь Этих Мягких Булочек";
         String encodedStr = "Меъжг Влцх Саьуцх Юктпзъу";
