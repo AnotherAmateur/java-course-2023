@@ -25,13 +25,11 @@ public class Task5 {
 
     private static Contact stringContactConverter(String name) throws IllegalArgumentException {
         String[] nameSplit = name.split(" ");
-        if (nameSplit.length == 1) {
-            return new Contact(nameSplit[0], null);
-        } else if (nameSplit.length == 2) {
-            return new Contact(nameSplit[0], nameSplit[1]);
-        } else {
-            throw new IllegalArgumentException();
-        }
+        return switch (nameSplit.length) {
+            case 1 -> new Contact(nameSplit[0], null);
+            case 2 -> new Contact(nameSplit[0], nameSplit[1]);
+            default -> throw new IllegalArgumentException();
+        };
     }
 
     private static final Comparator<Contact> ASC = Comparator
