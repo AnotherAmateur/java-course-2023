@@ -47,10 +47,6 @@ class CacheProxy implements InvocationHandler {
         return result;
     }
 
-    private String generateCacheKey(Method method, Object[] args) {
-        return method.getName() + Arrays.toString(args);
-    }
-
     private void saveResultToTmpDir(String key, Object result) throws IOException {
         Path tempDir = Files.createTempDirectory("fib cache");
         Path filePath = tempDir.resolve(key + ".txt");

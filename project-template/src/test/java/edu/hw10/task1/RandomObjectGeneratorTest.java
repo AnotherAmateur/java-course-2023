@@ -33,8 +33,6 @@ public class RandomObjectGeneratorTest {
 
         assertNotNull(myRec);
         assertNotNull(myRec.str());
-        int a = myRec.intValue();
-        int b = Integer.MIN_VALUE;
         assertEquals(myRec.intValue(), Integer.MIN_VALUE);
     }
 }
