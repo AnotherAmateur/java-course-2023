@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -48,11 +49,14 @@ class CacheProxy implements InvocationHandler {
     }
 
     private void saveResultToTmpDir(String key, Object result) throws IOException {
-        Path tempDir = Files.createTempDirectory("fib cache");
+        Path tempDir = FileSystems.getDefault().getPath(System.getProperty("java.io.tmpdir"), "fib cache");
+        Files.createDirectories(tempDir);
         Path filePath = tempDir.resolve(key + ".txt");
 
-        try (var outputStream = new ObjectOutputStream(new FileOutputStream(filePath.toFile()))) {
-            outputStream.writeObject(result);
+        if (!Files.exists(filePath)) {
+            try (var outputStream = new ObjectOutputStream(new FileOutputStream(filePath.toFile()))) {
+                outputStream.writeObject(result);
+            }
         }
     }
 
